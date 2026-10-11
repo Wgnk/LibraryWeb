@@ -36,7 +36,7 @@
 
     button, input, select { font: inherit; }
 
-    /* INITIALIZATION SCREEN */
+    /* SYSTEM BOOT SCREEN */
     #bootScreen {
       position: fixed;
       inset: 0;
@@ -212,9 +212,7 @@
       box-shadow: 0 0 10px #35d49a77;
     }
 
-    .welcome {
-      margin: 28px 0;
-    }
+    .welcome { margin: 28px 0; }
 
     .welcome h1 {
       margin: 5px 0;
@@ -308,7 +306,10 @@
       transition: .2s;
     }
 
-    button:hover { filter: brightness(1.15); transform: translateY(-1px); }
+    button:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
 
     button.secondary {
       color: var(--text);
@@ -319,7 +320,13 @@
     button.danger {
       color: #ffb2bd;
       background: #ff647c16;
-      border-color: #ff647c44;
+      border-color: #ff647c66;
+    }
+
+    button.danger:hover {
+      color: white;
+      background: #ff647c;
+      border-color: #ff647c;
     }
 
     .table-wrap { overflow-x: auto; }
@@ -351,8 +358,15 @@
       font-size: 10px;
     }
 
-    .tag.available { color: var(--green); background: #35d49a15; }
-    .tag.issued { color: var(--orange); background: #ffbb6315; }
+    .tag.available {
+      color: var(--green);
+      background: #35d49a15;
+    }
+
+    .tag.issued {
+      color: var(--orange);
+      background: #ffbb6315;
+    }
 
     .form-grid {
       display: grid;
@@ -431,6 +445,22 @@
       .stat-value { font-size: 28px; }
       .panel { padding: 15px; }
       .boot-footer { font-size: 8px; }
+
+      th, td {
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .action-buttons button {
+        margin-left: 0 !important;
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -444,7 +474,9 @@
       <div class="boot-line"></div>
 
       <h1>SYSTEM<br><span>INITIALIZING.</span></h1>
-      <p class="boot-status" id="bootStatus">Establishing secure connection...</p>
+      <p class="boot-status" id="bootStatus">
+        Establishing secure connection...
+      </p>
 
       <div class="boot-progress">
         <div id="bootProgressBar"></div>
@@ -462,7 +494,9 @@
         <div id="check4">○ &nbsp; System ready</div>
       </div>
 
-      <div class="boot-footer">MHMS / SYSTEM BOOT SEQUENCE / V1.0</div>
+      <div class="boot-footer">
+        MHMS / SYSTEM BOOT SEQUENCE / V1.0
+      </div>
     </div>
   </div>
 
@@ -473,6 +507,7 @@
         <div class="brand">MHMS<span>.</span></div>
         <div class="eyebrow">MANAGEMENT CONSOLE / LIBRARY</div>
       </div>
+
       <div class="system-status">
         <span class="status-dot"></span>
         ALL SYSTEMS OPERATIONAL
@@ -485,22 +520,26 @@
       <p>Monitor books, manage records, and keep your library organized.</p>
     </section>
 
+    <!-- STATISTICS -->
     <section class="stats">
       <div class="stat-card">
         <div class="stat-label">TOTAL BOOKS</div>
         <div class="stat-value" id="totalBooks">0</div>
         <div class="stat-note">Registered book records</div>
       </div>
+
       <div class="stat-card">
         <div class="stat-label">AVAILABLE</div>
         <div class="stat-value" id="availableBooks">0</div>
         <div class="stat-note">Ready to issue</div>
       </div>
+
       <div class="stat-card">
         <div class="stat-label">ISSUED</div>
         <div class="stat-value" id="issuedBooks">0</div>
         <div class="stat-note">Currently borrowed</div>
       </div>
+
       <div class="stat-card">
         <div class="stat-label">TOTAL TITLES</div>
         <div class="stat-value" id="totalTitles">0</div>
@@ -509,6 +548,7 @@
     </section>
 
     <section class="content-grid">
+      <!-- BOOK INVENTORY -->
       <div class="panel">
         <div class="panel-heading">
           <h2>Book Inventory</h2>
@@ -516,7 +556,13 @@
         </div>
 
         <div class="search-row">
-          <input id="searchInput" type="search" placeholder="Search title, author, or ID...">
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search title, author, or ID..."
+            aria-label="Search books"
+          >
+
           <select id="statusFilter" aria-label="Filter by status">
             <option value="all">All statuses</option>
             <option value="available">Available</option>
@@ -538,9 +584,13 @@
             <tbody id="bookTable"></tbody>
           </table>
         </div>
-        <div id="emptyState" class="empty" hidden>No matching books found.</div>
+
+        <div id="emptyState" class="empty" hidden>
+          No matching books found.
+        </div>
       </div>
 
+      <!-- RIGHT SIDEBAR -->
       <div>
         <section class="panel">
           <div class="panel-heading">
@@ -550,29 +600,54 @@
           <form id="addBookForm" class="form-grid">
             <div>
               <label class="form-label" for="bookTitle">Book title</label>
-              <input id="bookTitle" required maxlength="100" placeholder="Enter book title">
+              <input
+                id="bookTitle"
+                required
+                maxlength="100"
+                placeholder="Enter book title"
+              >
             </div>
+
             <div>
               <label class="form-label" for="bookAuthor">Author</label>
-              <input id="bookAuthor" required maxlength="80" placeholder="Enter author name">
+              <input
+                id="bookAuthor"
+                required
+                maxlength="80"
+                placeholder="Enter author name"
+              >
             </div>
+
             <div>
               <label class="form-label" for="bookId">Book ID</label>
-              <input id="bookId" required maxlength="20" placeholder="e.g. BK006">
+              <input
+                id="bookId"
+                required
+                maxlength="20"
+                placeholder="e.g. BK006"
+              >
             </div>
+
             <button type="submit">+ Register Book</button>
+
             <div id="formMessage" class="form-message" role="status"></div>
           </form>
         </section>
 
+        <!-- ACTIVITY LOG -->
         <section class="panel" style="margin-top:20px">
           <div class="panel-heading">
             <h2>System Activity</h2>
           </div>
+
           <div class="activity" id="activityLog">
             <div class="activity-item">
               <div class="activity-icon">✓</div>
-              <div>Dashboard initialized.<br><small>System ready for operations.</small></div>
+              <div>
+                Dashboard initialized.
+                <br>
+                <small>System ready for operations.</small>
+              </div>
             </div>
           </div>
         </section>
@@ -587,7 +662,10 @@
   </main>
 
   <script>
-    // INITIALIZATION ANIMATION
+    // ========================================
+    // SYSTEM INITIALIZATION ANIMATION
+    // ========================================
+
     function startBootSequence() {
       const screen = document.getElementById("bootScreen");
       const progressBar = document.getElementById("bootProgressBar");
@@ -606,6 +684,7 @@
 
       const timer = setInterval(() => {
         progress++;
+
         progressBar.style.width = progress + "%";
         percentText.textContent = String(progress).padStart(2, "0");
 
@@ -614,6 +693,7 @@
           progress >= stages[stageIndex].progress
         ) {
           const stage = stages[stageIndex];
+
           statusText.textContent = stage.status;
 
           const item = document.getElementById(stage.id);
@@ -625,35 +705,79 @@
 
         if (progress >= 100) {
           clearInterval(timer);
+
           setTimeout(() => {
             screen.classList.add("boot-hidden");
+
             setTimeout(() => screen.remove(), 900);
           }, 500);
         }
       }, 24);
     }
 
-    // SAMPLE INVENTORY DATA
+    // ========================================
+    // LIBRARY DATA AND LOCAL STORAGE
+    // ========================================
+
     const STORAGE_KEY = "mhms_library_books_v1";
 
     const starterBooks = [
-      { id: "BK001", title: "Introduction to Algorithms", author: "Thomas H. Cormen", status: "available" },
-      { id: "BK002", title: "Clean Code", author: "Robert C. Martin", status: "issued" },
-      { id: "BK003", title: "The C Programming Language", author: "Brian W. Kernighan", status: "available" },
-      { id: "BK004", title: "Digital Design", author: "M. Morris Mano", status: "available" },
-      { id: "BK005", title: "Operating System Concepts", author: "Abraham Silberschatz", status: "issued" }
+      {
+        id: "BK001",
+        title: "Introduction to Algorithms",
+        author: "Thomas H. Cormen",
+        status: "available"
+      },
+      {
+        id: "BK002",
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        status: "issued"
+      },
+      {
+        id: "BK003",
+        title: "The C Programming Language",
+        author: "Brian W. Kernighan",
+        status: "available"
+      },
+      {
+        id: "BK004",
+        title: "Digital Design",
+        author: "M. Morris Mano",
+        status: "available"
+      },
+      {
+        id: "BK005",
+        title: "Operating System Concepts",
+        author: "Abraham Silberschatz",
+        status: "issued"
+      }
     ];
 
     function loadBooks() {
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
+
         if (stored !== null) {
           const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) return parsed;
+
+          if (
+            Array.isArray(parsed) &&
+            parsed.every(book =>
+              book &&
+              typeof book.id === "string" &&
+              typeof book.title === "string" &&
+              typeof book.author === "string" &&
+              ["available", "issued"].includes(book.status)
+            )
+          ) {
+            return parsed;
+          }
         }
       } catch (error) {
         console.warn("Could not load saved inventory.", error);
       }
+
       return starterBooks.map(book => ({ ...book }));
     }
 
@@ -663,10 +787,16 @@
     function saveBooks() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+        return true;
       } catch (error) {
         console.warn("Could not save inventory.", error);
+        return false;
       }
     }
+
+    // ========================================
+    // SYSTEM ACTIVITY LOG
+    // ========================================
 
     function addActivity(message) {
       activityEntries.unshift({
@@ -676,6 +806,8 @@
           minute: "2-digit"
         })
       });
+
+      // Keep only the latest six activities.
       activityEntries.splice(6);
 
       const log = document.getElementById("activityLog");
@@ -703,19 +835,33 @@
       });
     }
 
+    // ========================================
+    // DASHBOARD STATISTICS
+    // ========================================
+
     function updateStats() {
       document.getElementById("totalBooks").textContent = books.length;
+
       document.getElementById("availableBooks").textContent =
         books.filter(book => book.status === "available").length;
+
       document.getElementById("issuedBooks").textContent =
         books.filter(book => book.status === "issued").length;
+
       document.getElementById("totalTitles").textContent =
-        new Set(books.map(book => book.title.toLowerCase())).size;
+        new Set(
+          books.map(book => book.title.trim().toLowerCase())
+        ).size;
     }
 
+    // ========================================
+    // RENDER BOOK INVENTORY
+    // ========================================
+
     function renderBooks() {
-      const query = document.getElementById("searchInput").value
-        .trim().toLowerCase();
+      const query = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
       const filter = document.getElementById("statusFilter").value;
       const tbody = document.getElementById("bookTable");
 
@@ -727,7 +873,10 @@
           book.title.toLowerCase().includes(query) ||
           book.author.toLowerCase().includes(query);
 
-        return matchesQuery && (filter === "all" || book.status === filter);
+        return (
+          matchesQuery &&
+          (filter === "all" || book.status === filter)
+        );
       });
 
       filteredBooks.forEach(book => {
@@ -744,83 +893,250 @@
 
         const statusCell = document.createElement("td");
         const tag = document.createElement("span");
+
         tag.className = "tag " + book.status;
         tag.textContent = book.status.toUpperCase();
+
         statusCell.appendChild(tag);
 
+        // ACTION BUTTONS
         const actionCell = document.createElement("td");
-        const action = document.createElement("button");
-        action.className = book.status === "issued" ? "secondary" : "";
-        action.textContent = book.status === "issued" ? "Return" : "Issue";
-        action.addEventListener("click", () => toggleBookStatus(book.id));
-        actionCell.appendChild(action);
+        const actionButtons = document.createElement("div");
 
-        row.append(idCell, titleCell, authorCell, statusCell, actionCell);
+        actionButtons.className = "action-buttons";
+
+        // ISSUE / RETURN BUTTON
+        const action = document.createElement("button");
+
+        action.className =
+          book.status === "issued" ? "secondary" : "";
+
+        action.textContent =
+          book.status === "issued" ? "Return" : "Issue";
+
+        action.setAttribute(
+          "aria-label",
+          `${book.status === "issued" ? "Return" : "Issue"} ${book.title}`
+        );
+
+        action.addEventListener("click", () => {
+          toggleBookStatus(book.id);
+        });
+
+        // DELETE BUTTON
+        const deleteButton = document.createElement("button");
+
+        deleteButton.className = "danger";
+        deleteButton.textContent = "Delete";
+
+        deleteButton.setAttribute(
+          "aria-label",
+          `Delete ${book.title}`
+        );
+
+        deleteButton.addEventListener("click", () => {
+          deleteBook(book.id);
+        });
+
+        // Place both buttons inside the action column.
+        actionButtons.append(action, deleteButton);
+        actionCell.appendChild(actionButtons);
+
+        row.append(
+          idCell,
+          titleCell,
+          authorCell,
+          statusCell,
+          actionCell
+        );
+
         tbody.appendChild(row);
       });
 
-      document.getElementById("emptyState").hidden = filteredBooks.length > 0;
+      document.getElementById("emptyState").hidden =
+        filteredBooks.length > 0;
+
       updateStats();
     }
 
+    // ========================================
+    // ISSUE OR RETURN A BOOK
+    // ========================================
+
     function toggleBookStatus(id) {
       const book = books.find(item => item.id === id);
+
       if (!book) return;
 
-      book.status = book.status === "available" ? "issued" : "available";
-      saveBooks();
+      const previousStatus = book.status;
+
+      book.status =
+        book.status === "available" ? "issued" : "available";
+
+      if (!saveBooks()) {
+        book.status = previousStatus;
+
+        alert(
+          "Unable to save the change. Please check browser storage settings."
+        );
+
+        return;
+      }
+
       renderBooks();
+
       addActivity(
         `${book.status === "issued" ? "Issued" : "Returned"}: ${book.title}`
       );
     }
 
-    document.getElementById("addBookForm").addEventListener("submit", event => {
-      event.preventDefault();
+    // ========================================
+    // DELETE A BOOK
+    // ========================================
 
-      const title = document.getElementById("bookTitle").value.trim();
-      const author = document.getElementById("bookAuthor").value.trim();
-      const id = document.getElementById("bookId").value.trim().toUpperCase();
+    function deleteBook(id) {
+      const book = books.find(item => item.id === id);
+
+      if (!book) return;
+
+      // Ask for confirmation before deleting.
+      const confirmed = confirm(
+        `Are you sure you want to delete "${book.title}" (${book.id})?\n\nThis action cannot be undone.`
+      );
+
+      if (!confirmed) return;
+
+      // Keep the old inventory in case saving fails.
+      const previousBooks = [...books];
+
+      // Remove the selected book.
+      books = books.filter(item => item.id !== id);
+
+      // Save the updated inventory.
+      if (!saveBooks()) {
+        books = previousBooks;
+
+        alert(
+          "The book could not be deleted because the updated inventory could not be saved."
+        );
+
+        renderBooks();
+        return;
+      }
+
+      // Refresh the table and statistics.
+      renderBooks();
+
+      // Record the deletion.
+      addActivity(`Deleted book: ${book.title} (${book.id})`);
+
+      // Display a success message.
       const message = document.getElementById("formMessage");
 
-      if (!title || !author || !id) {
-        message.style.color = "var(--red)";
-        message.textContent = "Please fill in all fields.";
-        return;
-      }
-
-      if (books.some(book => book.id.toLowerCase() === id.toLowerCase())) {
-        message.style.color = "var(--red)";
-        message.textContent = "That Book ID already exists.";
-        return;
-      }
-
-      books.unshift({ id, title, author, status: "available" });
-      saveBooks();
-      renderBooks();
-      addActivity(`Registered new book: ${title}`);
-
       message.style.color = "var(--green)";
-      message.textContent = "Book registered successfully.";
-      event.target.reset();
-    });
+      message.textContent =
+        `Book "${book.title}" deleted successfully.`;
+    }
 
-    document.getElementById("searchInput").addEventListener("input", renderBooks);
-    document.getElementById("statusFilter").addEventListener("change", renderBooks);
+    // ========================================
+    // ADD / REGISTER A BOOK
+    // ========================================
 
-    document.getElementById("resetSearch").addEventListener("click", () => {
-      document.getElementById("searchInput").value = "";
-      document.getElementById("statusFilter").value = "all";
-      renderBooks();
-    });
+    document.getElementById("addBookForm")
+      .addEventListener("submit", event => {
+        event.preventDefault();
+
+        const title = document.getElementById("bookTitle")
+          .value.trim();
+
+        const author = document.getElementById("bookAuthor")
+          .value.trim();
+
+        const id = document.getElementById("bookId")
+          .value.trim().toUpperCase();
+
+        const message = document.getElementById("formMessage");
+
+        if (!title || !author || !id) {
+          message.style.color = "var(--red)";
+          message.textContent = "Please fill in all fields.";
+          return;
+        }
+
+        // Prevent duplicate book IDs.
+        if (
+          books.some(
+            book => book.id.toLowerCase() === id.toLowerCase()
+          )
+        ) {
+          message.style.color = "var(--red)";
+          message.textContent = "That Book ID already exists.";
+          return;
+        }
+
+        const newBook = {
+          id,
+          title,
+          author,
+          status: "available"
+        };
+
+        books.unshift(newBook);
+
+        if (!saveBooks()) {
+          books = books.filter(book => book.id !== id);
+
+          message.style.color = "var(--red)";
+          message.textContent =
+            "Unable to save the book. Check browser storage settings.";
+
+          renderBooks();
+          return;
+        }
+
+        renderBooks();
+        addActivity(`Registered new book: ${title}`);
+
+        message.style.color = "var(--green)";
+        message.textContent = "Book registered successfully.";
+
+        event.target.reset();
+      });
+
+    // ========================================
+    // SEARCH AND STATUS FILTER
+    // ========================================
+
+    document.getElementById("searchInput")
+      .addEventListener("input", renderBooks);
+
+    document.getElementById("statusFilter")
+      .addEventListener("change", renderBooks);
+
+    document.getElementById("resetSearch")
+      .addEventListener("click", () => {
+        document.getElementById("searchInput").value = "";
+        document.getElementById("statusFilter").value = "all";
+
+        renderBooks();
+      });
+
+    // ========================================
+    // LIVE CLOCK
+    // ========================================
 
     function updateClock() {
       document.getElementById("clock").textContent =
         new Date().toLocaleString();
     }
 
+    // ========================================
+    // START THE APPLICATION
+    // ========================================
+
     renderBooks();
     updateClock();
+
     setInterval(updateClock, 1000);
     startBootSequence();
   </script>
